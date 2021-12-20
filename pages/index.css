@@ -1,0 +1,23 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/Inter-Web/inter.css);
+@import url(../bloks/page/page.css);
+@import url(../bloks/header/header.css);
+@import url(../bloks/header/__logo/header__logo.css);
+@import url(../bloks/profile/profile.css);
+@import url(../bloks/profile/__avatar/profile__avatar.css);
+@import url(../bloks/profile/__info/profile__info.css);
+@import url(../bloks/profile/__author/profile__author.css);
+@import url(../bloks/profile/__title/profile__title.css);
+@import url(../bloks/profile/__edit-button/profile__edit-button.css);
+@import url(../bloks/profile/__subtitle/profile__subtitle.css);
+@import url(../bloks/profile/__add-button/profile__add-button.css);
+@import url(../bloks/elements/elements.css);
+@import url(../bloks/elements/__card/elements__card.css);
+@import url(../bloks/elements/__card-image/elements__card-image.css);
+@import url(../bloks/elements/__card-name/elements__card-name.css);
+@import url(../bloks/elements/__card-title/elements__card-title.css);
+@import url(../bloks/elements/__card-like/elements__card-like.css);
+@import url(../bloks/footer/footer.css);
+@import url(../bloks/footer/__subtitle/footer__subtitle.css);
+
+
