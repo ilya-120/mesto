@@ -19,5 +19,12 @@
 @import url(../bloks/elements/__card-like/elements__card-like.css);
 @import url(../bloks/footer/footer.css);
 @import url(../bloks/footer/__subtitle/footer__subtitle.css);
-
-
+@import url(../bloks/popup/popup.css);
+@import url(../bloks/popup/_opened/popup_opened.css);
+@import url(../bloks/popup/__container/popup__container.css);
+@import url(../bloks/popup/__container-close-button/popup__container-close-button.css);
+@import url(../bloks/popup/__container-title/popup__container-title.css);
+@import url(../bloks/popup/__container-profile-title/popup__container-profile-title.css);
+@import url(../bloks/popup/__container-profile-subtitle/popup__container-profile-subtitle.css);
+@import url(../bloks/popup/__container-submit-button/popup__container-submit-button.css);
+@import url(../bloks/popup/__container-submit-button-text/popup__container-submit-button-text.css);

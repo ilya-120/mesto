@@ -1,0 +1,10 @@
+.popup__container-submit-button-text {
+  margin-top: 14px;
+  margin-bottom: 18px;
+}
+
+@media screen and (max-width: 767px) {
+  .popup__container-submit-button-text {
+    margin-bottom: 14px;
+  }
+}
