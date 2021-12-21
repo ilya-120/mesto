@@ -17,13 +17,6 @@ closeButton.addEventListener('click',() => { // Вешаем обработчи�
   popup.classList.add('popup_opened'); // Добавляем не активный класс
 });
 
-// Факультативно
-document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
-  if(e.target === popup) { // Если цель клика - фон, то:
-    popup.classList.add('popup_opened'); // Добавляем не активный класс
-  }
-});
-
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function formSubmitHandler (evt) {
@@ -33,3 +26,9 @@ function formSubmitHandler (evt) {
 }
   formElement.addEventListener('submit', formSubmitHandler);
 
+// Факультативно
+document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
+  if(e.target === popup) { // Если цель клика - фон, то:
+    popup.classList.add('popup_opened'); // Добавляем не активный класс
+  }
+});

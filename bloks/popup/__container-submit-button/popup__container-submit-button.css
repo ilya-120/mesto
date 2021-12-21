@@ -19,3 +19,9 @@
     margin: 45px 22px 25px;
   }
 }
+
+.popup__container-submit-button:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}

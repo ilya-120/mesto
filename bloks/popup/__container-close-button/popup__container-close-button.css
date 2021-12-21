@@ -21,3 +21,9 @@
     right: 0px;
   }
 }
+
+.popup__container-close-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}

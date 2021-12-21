@@ -17,3 +17,9 @@
     margin-left: 10px;
   }
 }
+
+.profile__edit-button:hover {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}

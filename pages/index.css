@@ -17,6 +17,7 @@
 @import url(../bloks/elements/__card-name/elements__card-name.css);
 @import url(../bloks/elements/__card-title/elements__card-title.css);
 @import url(../bloks/elements/__card-like/elements__card-like.css);
+@import url(../bloks/elements/__card-like/_activ/elements__card-like_activ.css);
 @import url(../bloks/footer/footer.css);
 @import url(../bloks/footer/__subtitle/footer__subtitle.css);
 @import url(../bloks/popup/popup.css);
