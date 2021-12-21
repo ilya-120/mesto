@@ -5,7 +5,7 @@
 
 **GitHub**
 
-* [https://ilya-120.github.io/mesto/](?)
+* [https://ilya-120.github.io/mesto](?)
 
 
 **Выполнение задания по макету.**
