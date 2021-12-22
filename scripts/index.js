@@ -8,13 +8,13 @@ let nameInput = document.querySelector('.popup__container-profile-title');
 let jobInput = document.querySelector('.popup__container-profile-subtitle');
 
 editButton.addEventListener('click',() => { // Вешаем обработчик на кнопку
-  popup.classList.remove('popup_opened'); // Убираем активный класс
+  popup.classList.add('popup_opened'); // Добавляем не активный класс
   nameInput.value = profileTitle.textContent; // Исходный текст
   jobInput.value = profileSubtitle.textContent; // Исходный текст
 });
 
 closeButton.addEventListener('click',() => { // Вешаем обработчик на кнопку
-  popup.classList.add('popup_opened'); // Добавляем не активный класс
+  popup.classList.remove('popup_opened'); // Убираем активный класс
 });
 
 // Обработчик «отправки» формы, хотя пока
@@ -29,6 +29,6 @@ function formSubmitHandler (evt) {
 // Факультативно
 document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
   if(e.target === popup) { // Если цель клика - фон, то:
-    popup.classList.add('popup_opened'); // Добавляем не активный класс
+    popup.classList.remove('popup_opened'); // Убираем активный класс
   }
 });
