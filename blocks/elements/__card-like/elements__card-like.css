@@ -1,0 +1,16 @@
+.elements__card-like {
+  background-image: url(../../../images/Heart.svg);
+  background-color: #FFFFFF;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 22px;
+  height: 19px;
+  border: none;
+  margin: 5px 5px 1px auto;
+}
+
+.elements__card-like:hover {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
