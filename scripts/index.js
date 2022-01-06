@@ -13,13 +13,14 @@ const linkInput = popupAdd.querySelector('.popup__input_type_link');
 const titleInput = document.querySelector('.popup__input_type_name');
 const cards = document.querySelector('.elements');
 const formElements = popupAdd.querySelector('.popup__container-form');
+const cardsContainer = document.querySelector('.elements');
 
 function popupOpened() {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
 }
 
 function popupAddOpened() {
-  popupAdd.classList.add('popup_opened'); // Добавляем не активный класс
+  popupAdd.classList.add('popup_opened');
 }
 
 function popupClose() {
@@ -51,11 +52,20 @@ function formSubmitHandler(evt) {
 }
 formElement.addEventListener('submit', formSubmitHandler);
 
+function addCards() {
+  const cardTemplate = document.querySelector('#card').content;
+  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
+  cardElement.querySelector(".elements__card-image").src = linkInput.value;
+  cardElement.querySelector(".elements__card-title").textContent = titleInput.value;
+  cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('elements__card-like_activ');
+  });
+  cardsContainer.prepend(cardElement);
+}
+
 function formsSubmitHandler(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  cards.insertAdjacentHTML('afterbegin','<article class="elements__card"><img class="elements__card-image" src="" alt="Фото места"/><div class="elements__card-name"><h2 class="elements__card-title"></h2><button class="elements__card-like" type="button"></button></div></article>');
-  cards.querySelector(".elements__card-image").src = linkInput.value;
-  cards.querySelector(".elements__card-title").textContent = titleInput.value;
+  addCards()
   popupAddClose();
 }
 formElements.addEventListener('submit', formsSubmitHandler);
@@ -89,7 +99,7 @@ const initialCards = [
 
 
 function galleryAddItems(image) {
-  cards.insertAdjacentHTML('afterbegin','<article class="elements__card"><img class="elements__card-image" src="" alt="Фото места"/><div class="elements__card-name"><h2 class="elements__card-title"></h2><button class="elements__card-like" type="button"></button></div></article>');
+  addCards()
   cards.querySelector(".elements__card-image").src = image.link;
   cards.querySelector(".elements__card-title").textContent = image.name;
 };
