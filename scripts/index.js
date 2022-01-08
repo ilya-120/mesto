@@ -61,12 +61,25 @@ function addCards() {
     evt.target.classList.toggle('elements__card-like_activ');
   });
   cardsContainer.prepend(cardElement);
+  const deleteButton = document.querySelectorAll('.elements__card-delete');
+  for (i = 0; i < deleteButton.length; i++) {
+    const button = deleteButton[i];
+    console.log(deleteButton.length);
+    button.addEventListener('click', function () {
+      const deleteItem = button.closest('.elements__card');
+      deleteItem.remove();
+    });
+  }
 }
+
 
 function formsSubmitHandler(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   addCards()
   popupAddClose();
+  titleInput.value = '';
+  linkInput.value = '';
+
 }
 formElements.addEventListener('submit', formsSubmitHandler);
 
@@ -105,6 +118,10 @@ function galleryAddItems(image) {
 };
 
 initialCards.forEach(galleryAddItems);
+
+
+
+
 
 // Факультативно
 //document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
