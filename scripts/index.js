@@ -2,8 +2,8 @@ const popup = document.querySelector('.popup'); // Объявляем перем
 const popupAdd = document.querySelector('#popup-add-card');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const closeButton = document.querySelector('.popup__container-close-button');
-const closeAddButton = popupAdd.querySelector('.popup__container-close-button');
+const closePopapButton = document.querySelector('.popup__container-close-button');
+const closePopapAddButton = popupAdd.querySelector('.popup__container-close-button');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const formElement = document.querySelector('.popup__container-form');
@@ -38,9 +38,9 @@ editButton.addEventListener('click', popupOpened); { // Вешаем обраб�
 
 addButton.addEventListener('click', popupAddOpened);
 
-closeButton.addEventListener('click', popupClose);  // Вешаем обработчик на кнопку
+closePopapButton.addEventListener('click', popupClose);  // Вешаем обработчик на кнопку
 
-closeAddButton.addEventListener('click', popupAddClose);
+closePopapAddButton.addEventListener('click', popupAddClose);
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -63,10 +63,9 @@ function addCards() {
   cardsContainer.prepend(cardElement);
   const deleteButton = document.querySelectorAll('.elements__card-delete');
   for (i = 0; i < deleteButton.length; i++) {
-    const button = deleteButton[i];
-    console.log(deleteButton.length);
-    button.addEventListener('click', function () {
-      const deleteItem = button.closest('.elements__card');
+    const buttonDelete = deleteButton[i];
+    buttonDelete.addEventListener('click', function () {
+      const deleteItem = buttonDelete.closest('.elements__card');
       deleteItem.remove();
     });
   }
@@ -79,7 +78,6 @@ function formsSubmitHandler(evt) {
   popupAddClose();
   titleInput.value = '';
   linkInput.value = '';
-
 }
 formElements.addEventListener('submit', formsSubmitHandler);
 
