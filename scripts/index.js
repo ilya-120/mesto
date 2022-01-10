@@ -27,7 +27,7 @@ function popupAddOpened() {
   popupAdd.classList.add('popup_opened');
 }
 
-function popupImageAddOpened() {
+function popupImageOpened() {
   popupImage.classList.add('popup_opened');
 }
 
@@ -91,7 +91,7 @@ function addCards() {
       cardImage.src = evt.target.src;
       cardImage.alt = evt.target.alt;
       cardTitle.textContent = evt.target.alt;
-      popupImageAddOpened();
+      popupImageOpened();
     });
   };
 }
@@ -132,7 +132,6 @@ const initialCards = [
   }
 ];
 
-
 function galleryAddItems(image) {
   addCards()
   cards.querySelector(".elements__card-image").src = image.link;
@@ -141,11 +140,6 @@ function galleryAddItems(image) {
 };
 
 initialCards.forEach(galleryAddItems);
-
-
-
-
-
 
 // Факультативно
 //document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
