@@ -107,28 +107,28 @@ formElements.addEventListener('submit', formsSubmitHandler);
 
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Нью-Йорк',
+    link: 'https://kvotka.ru/images/2022/01/10/NY2012.jpg'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Сочи',
+    link: 'https://kvotka.ru/images/2022/01/10/Sochi2018.jpg'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Шибеник',
+    link: 'https://kvotka.ru/images/2022/01/10/Shib2019.jpg'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Реджо-ди-Калабрия',
+    link: 'https://kvotka.ru/images/2022/01/10/Piz2018.jpg'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Петергоф',
+    link: 'https://kvotka.ru/images/2022/01/10/StP2021.jpg'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Париж',
+    link: 'https://kvotka.ru/images/2022/01/10/Par2018.jpg'
   }
 ];
 
