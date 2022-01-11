@@ -1,9 +1,9 @@
-const popup = document.querySelector('.popup'); // Объявляем переменные
+const popupEdit = document.querySelector('#popup-edit-card'); // Объявляем переменные
 const popupAdd = document.querySelector('#popup-add-card');
 const popupImage = document.querySelector('#popup-image');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const closePopapButton = document.querySelector('.popup__container-close-button');
+const closePopapEditButton = popupEdit.querySelector('.popup__container-close-button');
 const closePopapAddButton = popupAdd.querySelector('.popup__container-close-button');
 const closePopapImageButton = popupImage.querySelector('.popup__container-close-button');
 const profileTitle = document.querySelector('.profile__title');
@@ -19,42 +19,35 @@ const cardsContainer = document.querySelector('.elements');
 const cardImage = document.querySelector('.popup__card-image');
 const cardTitle = document.querySelector('.popup__card-title');
 
-function popupOpened() {
+function popupOpened(popup) {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
 }
 
-function popupAddOpened() {
-  popupAdd.classList.add('popup_opened');
-}
-
-function popupImageOpened() {
-  popupImage.classList.add('popup_opened');
-}
-
-function popupClose() {
+function popupClose(popup) {
   popup.classList.remove('popup_opened'); // Убираем активный класс
 }
 
-function popupAddClose() {
-  popupAdd.classList.remove('popup_opened');
-}
-
-function popupImageClose() {
-  popupImage.classList.remove('popup_opened');
-}
-
-editButton.addEventListener('click', popupOpened); { // Вешаем обработчик на кнопку
+editButton.addEventListener('click', () => {
+  popupOpened(popupEdit);
   nameInput.value = profileTitle.textContent; // Исходный текст
   jobInput.value = profileSubtitle.textContent; // Исходный текст
-};
+});
 
-addButton.addEventListener('click', popupAddOpened);
+addButton.addEventListener('click', () => {
+  popupOpened(popupAdd);
+});
 
-closePopapButton.addEventListener('click', popupClose);  // Вешаем обработчик на кнопку
+closePopapEditButton.addEventListener('click', () => {
+  popupClose(popupEdit);
+});  // Вешаем обработчик на кнопку
 
-closePopapAddButton.addEventListener('click', popupAddClose);
+closePopapAddButton.addEventListener('click', () => {
+  popupClose(popupAdd);
+});
 
-closePopapImageButton.addEventListener('click', popupImageClose);
+closePopapImageButton.addEventListener('click', () => {
+  popupClose(popupImage);
+});
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -62,7 +55,7 @@ function formSubmitHandler(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileTitle.textContent = nameInput.value; // Записываем введенный текст
   profileSubtitle.textContent = jobInput.value; // Записываем введенный текст
-  popupClose();
+  popupClose(popupEdit);
 }
 formElement.addEventListener('submit', formSubmitHandler);
 
@@ -91,19 +84,19 @@ function addCards() {
       cardImage.src = evt.target.src;
       cardImage.alt = evt.target.alt;
       cardTitle.textContent = evt.target.alt;
-      popupImageOpened();
+      popupOpened(popupImage);
     });
   };
 }
 
-function formsSubmitHandler(evt) {
+function formAddSubmitHandler(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  addCards()
-  popupAddClose();
+  addCards();
+  popupClose(popupAdd);
   titleInput.value = '';
   linkInput.value = '';
 }
-formElements.addEventListener('submit', formsSubmitHandler);
+formElements.addEventListener('submit', formAddSubmitHandler);
 
 const initialCards = [
   {
