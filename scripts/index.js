@@ -49,10 +49,19 @@ const initialCards = [
 
 function openPopup(popup) {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
+  document.addEventListener('keydown', closeByEsc);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened'); // Убираем активный класс
+  document.removeEventListener('keydown', closeByEsc);
+}
+
+function closeByEsc(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
 }
 
 editButton.addEventListener('click', () => {
@@ -97,8 +106,8 @@ function createCard(name, link) {
   cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__card-like_activ');
   });
-  cardElement.querySelector('.elements__card-delete').addEventListener('click', function (event) {
-    const elementItem = event.target.closest('.elements__card');
+  cardElement.querySelector('.elements__card-delete').addEventListener('click', function (evt) {
+    const elementItem = evt.target.closest('.elements__card');
     elementItem.remove();
   });
   cardElement.querySelector('.elements__card-image').addEventListener('click', function (evt) {
@@ -123,10 +132,11 @@ function handleAddFormSubmit(evt) {
 }
 addCardForm.addEventListener('submit', handleAddFormSubmit);
 
-// Факультативно
-//document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
-//  if(e.target === popup) { // Если цель клика - фон, то:
-//    popup.classList.remove('popup_opened'); // Убираем активный класс
-//  }
-//});
+
+document.addEventListener('click', (e) => {// Вешаем обработчик на весь документ
+  const openedPopup = document.querySelector('.popup_opened');
+  if (e.target === openedPopup) { // Если цель клика - фон, то:
+    closePopup(openedPopup); // Убираем активный класс
+  }
+});
 

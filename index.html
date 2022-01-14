@@ -38,8 +38,8 @@
         <button class="popup__container-close-button" type="button"></button>
         <form name="editForm" class="popup__container-form">
           <h2 class="popup__container-title">Редактировать профиль</h2>
-          <input required type="text" name="Name" placeholder="Имя" class="popup__input popup__input_type_title">
-          <input required type="text" name="About" placeholder="О себе" class="popup__input popup__input_type_subtitle">
+          <input required minlength=2 maxlength=40 type="text" name="Name" placeholder="Имя" class="popup__input popup__input_type_title">
+          <input required minlength=2 maxlength=200 type="text" name="About" placeholder="О себе" class="popup__input popup__input_type_subtitle">
           <input required type="submit" value="Сохранить" class="popup__container-submit-button">
         </form>
       </div>
@@ -49,8 +49,8 @@
         <button class="popup__container-close-button" type="button"></button>
         <form name="addForm" class="popup__container-form">
           <h2 class="popup__container-title">Новое место</h2>
-          <input required type="text" name="Name" placeholder="Название" class="popup__input popup__input_type_name">
-          <input required type="text" name="Link" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link">
+          <input required minlength=2 maxlength=40 type="text" name="Name" placeholder="Название" class="popup__input popup__input_type_name">
+          <input required type="url" name="Link" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link">
           <input required type="submit" value="Создать" class="popup__container-submit-button">
         </form>
       </div>
