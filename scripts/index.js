@@ -47,16 +47,39 @@ const initialCards = [
   }
 ];
 
+function createCard(name, link) {
+  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
+  const imageCard = cardElement.querySelector(".elements__card-image");
+  const imageTitle = cardElement.querySelector(".elements__card-title");
+  imageCard.src = link;
+  imageCard.alt = name;
+  imageTitle.textContent = name;
+  return cardElement;
+}
+
+function handleProfileFormSubmit() {
+  //evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  profileTitle.textContent = nameInput.value; // Записываем введенный текст
+  profileSubtitle.textContent = jobInput.value; // Записываем введенный текст
+  closePopup(popupEdit);
+}
+
+function handleAddFormSubmit() {
+  //evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  cardsContainer.prepend(createCard(titleInput.value, linkInput.value));
+  closePopup(popupAdd);
+  addCardForm.reset();
+}
+
 function openPopup(popup) {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
   document.addEventListener('keydown', closeByEsc);
+  enableValidationGlobal(validationSettings);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened'); // Убираем активный класс
   document.removeEventListener('keydown', closeByEsc);
-  addCardForm.reset();
-  //setSubmitButtonState(false);
 }
 
 function closeByEsc(evt) {
@@ -66,15 +89,16 @@ function closeByEsc(evt) {
   }
 }
 
-editButton.addEventListener('click', () => {
-  openPopup(popupEdit);
+function openedProfileEdit() {
   nameInput.value = profileTitle.textContent; // Исходный текст
   jobInput.value = profileSubtitle.textContent; // Исходный текст
-});
+  openPopup(popupEdit);
+};
 
-addButton.addEventListener('click', () => {
+function openedAddCard() {
+  addCardForm.reset();
   openPopup(popupAdd);
-});
+};
 
 closePopapEditButton.addEventListener('click', () => {
   closePopup(popupEdit);
@@ -88,37 +112,9 @@ closePopapImageButton.addEventListener('click', () => {
   closePopup(popupImage);
 });
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  profileTitle.textContent = nameInput.value; // Записываем введенный текст
-  profileSubtitle.textContent = jobInput.value; // Записываем введенный текст
-  closePopup(popupEdit);
-}
-profileForm.addEventListener('submit', handleProfileFormSubmit);
-
-function createCard(name, link) {
-  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
-  const imageCard = cardElement.querySelector(".elements__card-image");
-  const imageTitle = cardElement.querySelector(".elements__card-title");
-  imageCard.src = link;
-  imageCard.alt = name;
-  imageTitle.textContent = name;
-  return cardElement;
-}
-
 initialCards.forEach(function (element) {
   cardsContainer.prepend(createCard(element.name, element.link));
 });
-
-function handleAddFormSubmit(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  cardsContainer.prepend(createCard(titleInput.value, linkInput.value));
-  closePopup(popupAdd);
-}
-addCardForm.addEventListener('submit', handleAddFormSubmit);
-
 
 document.addEventListener('click', (e) => {// Вешаем обработчик на весь документ
   const openedPopup = document.querySelector('.popup_opened');
@@ -147,4 +143,11 @@ cardsContainer.addEventListener('click', (evt) => {
     openPopup(popupImage);
   }
 });
+
+
+profileForm.addEventListener('submit', handleProfileFormSubmit);
+addCardForm.addEventListener('submit', handleAddFormSubmit);
+editButton.addEventListener('click', openedProfileEdit);
+addButton.addEventListener('click', openedAddCard);
+
 
