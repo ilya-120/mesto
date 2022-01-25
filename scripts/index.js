@@ -54,6 +54,19 @@ function createCard(name, link) {
   imageCard.src = link;
   imageCard.alt = name;
   imageTitle.textContent = name;
+  cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('elements__card-like_activ');
+  });
+  cardElement.querySelector('.elements__card-delete').addEventListener('click', function (evt) {
+    const elementItem = evt.target.closest('.elements__card');
+    elementItem.remove();
+  });
+  cardElement.querySelector('.elements__card-image').addEventListener('click', function (evt) {
+    cardImage.src = evt.target.src;
+    cardImage.alt = evt.target.alt;
+    cardTitle.textContent = evt.target.alt;
+    openPopup(popupImage);
+  });
   return cardElement;
 }
 
@@ -74,7 +87,6 @@ function handleAddFormSubmit() {
 function openPopup(popup) {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
   document.addEventListener('keydown', closeByEsc);
-  enableValidationGlobal(validationSettings);
 }
 
 function closePopup(popup) {
@@ -92,11 +104,13 @@ function closeByEsc(evt) {
 function openedProfileEdit() {
   nameInput.value = profileTitle.textContent; // Исходный текст
   jobInput.value = profileSubtitle.textContent; // Исходный текст
+  checkValidationOpenPopup(profileForm, validationSettings);
   openPopup(popupEdit);
 };
 
 function openedAddCard() {
   addCardForm.reset();
+  checkValidationOpenPopup(addCardForm, validationSettings);
   openPopup(popupAdd);
 };
 
@@ -123,31 +137,28 @@ document.addEventListener('click', (e) => {// Вешаем обработчик 
   }
 });
 
-// Рефакторинг: Вместо добавления 3 слушателей каждой карточке,
-// повесили 1 слушатель на весь контейнер.
-// Механизм делегирования.
-// Обработчик обрабатывает каждое событие на элементе,
-// а условная конструкция проверяет, на каком из дочерних оно произошло.
-cardsContainer.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('elements__card-like')) {
-    evt.target.classList.toggle('elements__card-like_activ');
-  }
-  if (evt.target.classList.contains('elements__card-delete')) {
-    const elementItem = evt.target.closest('.elements__card');
-    elementItem.remove();
-  }
-  if (evt.target.classList.contains('elements__card-image')) {
-    cardImage.src = evt.target.src;
-    cardImage.alt = evt.target.alt;
-    cardTitle.textContent = evt.target.alt;
-    openPopup(popupImage);
-  }
-});
-
-
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 addCardForm.addEventListener('submit', handleAddFormSubmit);
 editButton.addEventListener('click', openedProfileEdit);
 addButton.addEventListener('click', openedAddCard);
 
-
+// Отклоненный на ревью рефакторинг: Вместо добавления 3 слушателей каждой карточке,
+// повесили 1 слушатель на весь контейнер.
+// Механизм делегирования.
+// Обработчик обрабатывает каждое событие на элементе,
+// а условная конструкция проверяет, на каком из дочерних оно произошло.
+//cardsContainer.addEventListener('click', (evt) => {
+//  if (evt.target.classList.contains('elements__card-like')) {
+//    evt.target.classList.toggle('elements__card-like_activ');
+//  }
+//  if (evt.target.classList.contains('elements__card-delete')) {
+//    const elementItem = evt.target.closest('.elements__card');
+//    elementItem.remove();
+//  }
+//  if (evt.target.classList.contains('elements__card-image')) {
+//    cardImage.src = evt.target.src;
+//    cardImage.alt = evt.target.alt;
+//    cardTitle.textContent = evt.target.alt;
+//    openPopup(popupImage);
+//  }
+//});
