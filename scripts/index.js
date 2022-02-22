@@ -1,5 +1,5 @@
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 const popupEdit = document.querySelector('#popup-edit-card'); // Объявляем переменные
 const popupAdd = document.querySelector('#popup-add-card');
@@ -12,8 +12,8 @@ const closePopapImageButton = popupImage.querySelector('.popup__container-close-
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const cardsContainer = document.querySelector('.elements');
-const cardImage = document.querySelector('.popup__card-image');
-const cardTitle = document.querySelector('.popup__card-title');
+//const cardImage = document.querySelector('.popup__card-image');
+//const cardTitle = document.querySelector('.popup__card-title');
 //const cardTemplate = document.querySelector('#card').content;
 const profileForm = document.forms.editForm;
 const addCardForm = document.forms.addForm;
@@ -21,11 +21,20 @@ const nameInput = profileForm.elements.name;
 const jobInput = profileForm.elements.about;
 const linkInput = addCardForm.elements.link;
 const titleInput = addCardForm.elements.name;
-const submitButton = addCardForm.elements.submitButton;
+const submitCardFormButton = addCardForm.elements.submitButton;
 const popupEditInputList = Array.from(popupEdit.querySelectorAll('.popup__input'));
 const popupEditErrorList = Array.from(popupEdit.querySelectorAll('.popup__error'));
 const popupAddInputList = Array.from(popupAdd.querySelectorAll('.popup__input'));
 const popupAddErrorList = Array.from(popupAdd.querySelectorAll('.popup__error'));
+const validationParameters = {
+  formSelector: '.popup__container-form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__container-submit-button',
+  inactiveButtonClass: 'popup__container-submit-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 
 const initialCards = [
   {
@@ -64,9 +73,11 @@ function handleProfileFormSubmit(evt) {
 function handleAddFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   //cardsContainer.prepend(createCard(titleInput.value, linkInput.value));
-  const newCard = new Card({name: titleInput.value, link: linkInput.value}, '#card');
-  const newCardElement = newCard.generateCard();
-  cardsContainer.prepend(newCardElement);
+  const card = {
+    name: titleInput.value,
+    link: linkInput.value
+  };
+  createCard(card);
   closePopup(popupAdd);
   addCardForm.reset();
 }
@@ -74,17 +85,26 @@ function handleAddFormSubmit(evt) {
 function openPopup(popup) {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
   document.addEventListener('keydown', closeByEsc);
+  document.addEventListener('click', closeByClickOverlay);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened'); // Убираем активный класс
   document.removeEventListener('keydown', closeByEsc);
+  document.removeEventListener('click', closeByClickOverlay);
 }
 
 function closeByEsc(evt) {
+  const openedPopup = document.querySelector('.popup_opened');
   if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);
+  }
+}
+
+function closeByClickOverlay(e) {
+  const openedPopup = document.querySelector('.popup_opened');
+  if (e.target === openedPopup) { // Если цель клика - фон, то:
+    closePopup(openedPopup); // Убираем активный класс
   }
 }
 
@@ -109,8 +129,8 @@ function openedProfileEdit() {
 function openedAddCard() {
   clearErrors(popupAddInputList, popupAddErrorList);
   addCardForm.reset();
-  submitButton.classList.add('popup__container-submit-button_disabled');
-  submitButton.setAttribute('disabled', true);
+  submitCardFormButton.classList.add('popup__container-submit-button_disabled');
+  submitCardFormButton.setAttribute('disabled', true);
   //checkValidationOpenPopup(addCardForm);
   openPopup(popupAdd);
 };
@@ -129,37 +149,18 @@ closePopapImageButton.addEventListener('click', () => {
 
 const formList = Array.from(document.querySelectorAll('.popup__container-form'));
 formList.forEach((formSelector) => {
-  const formValidator = new FormValidator({
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__container-submit-button',
-    inactiveButtonClass: 'popup__container-submit-button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-  },
-  formSelector);
+  const formValidator = new FormValidator(validationParameters, formSelector);
   formValidator.enableValidation();
 });
-//initialCards.forEach(function (element) {
-  //cardsContainer.prepend(createCard(element.name, element.link));
 
-//});
-const passInitialCards = () => {
-  const cardsElements = initialCards.map((card) => {
-    const newCard = new Card(card, '#card');
-    return newCard.generateCard();
-  });
-  cardsContainer.prepend(...cardsElements);
-  //синтаксис spread (...) ES6 позволяет передавать элементы массива в качестве отдельных аргументов
-};
 
-passInitialCards();
+initialCards.forEach(createCard);
 
-document.addEventListener('click', (e) => {// Вешаем обработчик на весь документ
-  const openedPopup = document.querySelector('.popup_opened');
-  if (e.target === openedPopup) { // Если цель клика - фон, то:
-    closePopup(openedPopup); // Убираем активный класс
-  }
-});
+
+function createCard(card) {
+  const newCard = new Card(card, '#card');
+  cardsContainer.prepend(newCard.generateCard());
+}
 
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -173,7 +174,7 @@ addButton.addEventListener('click', openedAddCard);
 // Механизм делегирования.
 // Обработчик обрабатывает каждое событие на элементе,
 // а условная конструкция проверяет, на каком из дочерних оно произошло.
-cardsContainer.addEventListener('click', (evt) => {
+//cardsContainer.addEventListener('click', (evt) => {
 //  if (evt.target.classList.contains('elements__card-like')) {
 //    evt.target.classList.toggle('elements__card-like_activ');
 //  }
@@ -181,15 +182,15 @@ cardsContainer.addEventListener('click', (evt) => {
 //    const elementItem = evt.target.closest('.elements__card');
 //    elementItem.remove();
 //  }
-  if (evt.target.classList.contains('elements__card-image')) {
-    cardImage.src = evt.target.src;
-    cardImage.alt = evt.target.alt;
-    cardTitle.textContent = evt.target.alt;
-    openPopup(popupImage);
-  }
-});
+//  if (evt.target.classList.contains('elements__card-image')) {
+//    cardImage.src = evt.target.src;
+//    cardImage.alt = evt.target.alt;
+//    cardTitle.textContent = evt.target.alt;
+//    openPopup(popupImage);
+//  }
+//});
 
-//export {openPopup, closePopup};
+export { openPopup, closePopup };
 
 /*function createCard(name, link) {
   const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);

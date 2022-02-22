@@ -6,7 +6,9 @@ class FormValidator {
       this._inactiveButtonClass = settings.inactiveButtonClass,//: 'popup__container-submit-button_disabled',
       this._inputErrorClass = settings.inputErrorClass,//: 'popup__input_type_error',
       this._errorClass = settings.errorClass,//: 'popup__error_visible'
-      this._formSelector = formSelector//: '.popup__container-form',
+      this._formSelector = formSelector,//: '.popup__container-form',
+      this._submitButton = this._formSelector.querySelector(this._submitButtonSelector),
+      this._inputList = Array.from(this._formSelector.querySelectorAll(this._inputSelector))
   }
 
   enableValidation() {
@@ -56,24 +58,23 @@ class FormValidator {
   // и элемент кнопки, состояние которой нужно менять
 
   _toggleButtonState = (inputList) => {
-    const buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
     const checkInputInvalid = inputList.some((input) => !input.validity.valid);
     // Если есть хотя бы один невалидный инпут
     if (checkInputInvalid) {
       // сделай кнопку неактивной
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute('disabled', true);
+      this._submitButton.classList.add(this._inactiveButtonClass);
+      this._submitButton.setAttribute('disabled', true);
     } else {
       // иначе сделай кнопку активной
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.removeAttribute('disabled');
+      this._submitButton.classList.remove(this._inactiveButtonClass);
+      this._submitButton.removeAttribute('disabled');
     }
   }
 
   _setEventListeners = () => {
     // Находим все поля внутри формы,
     // сделаем из них массив методом Array.from
-    const inputList = Array.from(this._formSelector.querySelectorAll(this._inputSelector));
+    const inputList = this._inputList;
     //const buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
     //toggleButtonState(inputList, buttonElement, validationSetting);
     // Обойдём все элементы полученной коллекции
