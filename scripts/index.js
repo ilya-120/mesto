@@ -1,3 +1,6 @@
+import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
+
 const popupEdit = document.querySelector('#popup-edit-card'); // Объявляем переменные
 const popupAdd = document.querySelector('#popup-add-card');
 const popupImage = document.querySelector('#popup-image');
@@ -11,7 +14,7 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const cardsContainer = document.querySelector('.elements');
 const cardImage = document.querySelector('.popup__card-image');
 const cardTitle = document.querySelector('.popup__card-title');
-const cardTemplate = document.querySelector('#card').content;
+//const cardTemplate = document.querySelector('#card').content;
 const profileForm = document.forms.editForm;
 const addCardForm = document.forms.addForm;
 const nameInput = profileForm.elements.name;
@@ -19,6 +22,10 @@ const jobInput = profileForm.elements.about;
 const linkInput = addCardForm.elements.link;
 const titleInput = addCardForm.elements.name;
 const submitButton = addCardForm.elements.submitButton;
+const popupEditInputList = Array.from(popupEdit.querySelectorAll('.popup__input'));
+const popupEditErrorList = Array.from(popupEdit.querySelectorAll('.popup__error'));
+const popupAddInputList = Array.from(popupAdd.querySelectorAll('.popup__input'));
+const popupAddErrorList = Array.from(popupAdd.querySelectorAll('.popup__error'));
 
 const initialCards = [
   {
@@ -47,39 +54,19 @@ const initialCards = [
   }
 ];
 
-function createCard(name, link) {
-  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
-  const imageCard = cardElement.querySelector(".elements__card-image");
-  const imageTitle = cardElement.querySelector(".elements__card-title");
-  imageCard.src = link;
-  imageCard.alt = name;
-  imageTitle.textContent = name;
-  cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__card-like_activ');
-  });
-  cardElement.querySelector('.elements__card-delete').addEventListener('click', function (evt) {
-    const elementItem = evt.target.closest('.elements__card');
-    elementItem.remove();
-  });
-  cardElement.querySelector('.elements__card-image').addEventListener('click', function (evt) {
-    cardImage.src = evt.target.src;
-    cardImage.alt = evt.target.alt;
-    cardTitle.textContent = evt.target.alt;
-    openPopup(popupImage);
-  });
-  return cardElement;
-}
-
-function handleProfileFormSubmit() {
-  //evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileTitle.textContent = nameInput.value; // Записываем введенный текст
   profileSubtitle.textContent = jobInput.value; // Записываем введенный текст
   closePopup(popupEdit);
 }
 
-function handleAddFormSubmit() {
-  //evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  cardsContainer.prepend(createCard(titleInput.value, linkInput.value));
+function handleAddFormSubmit(evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  //cardsContainer.prepend(createCard(titleInput.value, linkInput.value));
+  const newCard = new Card({name: titleInput.value, link: linkInput.value}, '#card');
+  const newCardElement = newCard.generateCard();
+  cardsContainer.prepend(newCardElement);
   closePopup(popupAdd);
   addCardForm.reset();
 }
@@ -101,16 +88,30 @@ function closeByEsc(evt) {
   }
 }
 
+//Функция отчичтки текстов ошибок
+const clearErrors = (inputList, errorList) => {
+  inputList.forEach((input) => {
+    input.classList.remove('popup__input_type_error');
+  });
+  errorList.forEach((error) => {
+    error.classList.remove('popup__error_visible');
+  });
+}
+
 function openedProfileEdit() {
+  clearErrors(popupEditInputList, popupEditErrorList);
   nameInput.value = profileTitle.textContent; // Исходный текст
   jobInput.value = profileSubtitle.textContent; // Исходный текст
-  checkValidationOpenPopup(profileForm, validationSettings);
+  //checkValidationOpenPopup(profileForm);
   openPopup(popupEdit);
 };
 
 function openedAddCard() {
+  clearErrors(popupAddInputList, popupAddErrorList);
   addCardForm.reset();
-  checkValidationOpenPopup(addCardForm, validationSettings);
+  submitButton.classList.add('popup__container-submit-button_disabled');
+  submitButton.setAttribute('disabled', true);
+  //checkValidationOpenPopup(addCardForm);
   openPopup(popupAdd);
 };
 
@@ -126,9 +127,32 @@ closePopapImageButton.addEventListener('click', () => {
   closePopup(popupImage);
 });
 
-initialCards.forEach(function (element) {
-  cardsContainer.prepend(createCard(element.name, element.link));
+const formList = Array.from(document.querySelectorAll('.popup__container-form'));
+formList.forEach((formSelector) => {
+  const formValidator = new FormValidator({
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__container-submit-button',
+    inactiveButtonClass: 'popup__container-submit-button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+  },
+  formSelector);
+  formValidator.enableValidation();
 });
+//initialCards.forEach(function (element) {
+  //cardsContainer.prepend(createCard(element.name, element.link));
+
+//});
+const passInitialCards = () => {
+  const cardsElements = initialCards.map((card) => {
+    const newCard = new Card(card, '#card');
+    return newCard.generateCard();
+  });
+  cardsContainer.prepend(...cardsElements);
+  //синтаксис spread (...) ES6 позволяет передавать элементы массива в качестве отдельных аргументов
+};
+
+passInitialCards();
 
 document.addEventListener('click', (e) => {// Вешаем обработчик на весь документ
   const openedPopup = document.querySelector('.popup_opened');
@@ -137,17 +161,19 @@ document.addEventListener('click', (e) => {// Вешаем обработчик 
   }
 });
 
+
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 addCardForm.addEventListener('submit', handleAddFormSubmit);
 editButton.addEventListener('click', openedProfileEdit);
 addButton.addEventListener('click', openedAddCard);
 
+// !! Используем снова, чтобы не добавлять в класс Card
 // Отклоненный на ревью рефакторинг: Вместо добавления 3 слушателей каждой карточке,
 // повесили 1 слушатель на весь контейнер.
 // Механизм делегирования.
 // Обработчик обрабатывает каждое событие на элементе,
 // а условная конструкция проверяет, на каком из дочерних оно произошло.
-//cardsContainer.addEventListener('click', (evt) => {
+cardsContainer.addEventListener('click', (evt) => {
 //  if (evt.target.classList.contains('elements__card-like')) {
 //    evt.target.classList.toggle('elements__card-like_activ');
 //  }
@@ -155,10 +181,35 @@ addButton.addEventListener('click', openedAddCard);
 //    const elementItem = evt.target.closest('.elements__card');
 //    elementItem.remove();
 //  }
-//  if (evt.target.classList.contains('elements__card-image')) {
-//    cardImage.src = evt.target.src;
-//    cardImage.alt = evt.target.alt;
-//    cardTitle.textContent = evt.target.alt;
-//    openPopup(popupImage);
-//  }
-//});
+  if (evt.target.classList.contains('elements__card-image')) {
+    cardImage.src = evt.target.src;
+    cardImage.alt = evt.target.alt;
+    cardTitle.textContent = evt.target.alt;
+    openPopup(popupImage);
+  }
+});
+
+export {openPopup, closePopup};
+
+/*function createCard(name, link) {
+  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
+  const imageCard = cardElement.querySelector(".elements__card-image");
+  const imageTitle = cardElement.querySelector(".elements__card-title");
+  imageCard.src = link;
+  imageCard.alt = name;
+  imageTitle.textContent = name;
+  cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('elements__card-like_activ');
+  });
+  cardElement.querySelector('.elements__card-delete').addEventListener('click', function (evt) {
+    const elementItem = evt.target.closest('.elements__card');
+    elementItem.remove();
+  });
+  cardElement.querySelector('.elements__card-image').addEventListener('click', function (evt) {
+    cardImage.src = evt.target.src;
+    cardImage.alt = evt.target.alt;
+    cardTitle.textContent = evt.target.alt;
+    openPopup(popupImage);
+  });
+  return cardElement;
+}*/
