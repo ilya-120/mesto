@@ -12,9 +12,6 @@ const closePopapImageButton = popupImage.querySelector('.popup__container-close-
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const cardsContainer = document.querySelector('.elements');
-//const cardImage = document.querySelector('.popup__card-image');
-//const cardTitle = document.querySelector('.popup__card-title');
-//const cardTemplate = document.querySelector('#card').content;
 const profileForm = document.forms.editForm;
 const addCardForm = document.forms.addForm;
 const nameInput = profileForm.elements.name;
@@ -72,7 +69,6 @@ function handleProfileFormSubmit(evt) {
 
 function handleAddFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  //cardsContainer.prepend(createCard(titleInput.value, linkInput.value));
   const card = {
     name: titleInput.value,
     link: linkInput.value
@@ -122,7 +118,6 @@ function openedProfileEdit() {
   clearErrors(popupEditInputList, popupEditErrorList);
   nameInput.value = profileTitle.textContent; // Исходный текст
   jobInput.value = profileSubtitle.textContent; // Исходный текст
-  //checkValidationOpenPopup(profileForm);
   openPopup(popupEdit);
 };
 
@@ -131,7 +126,6 @@ function openedAddCard() {
   addCardForm.reset();
   submitCardFormButton.classList.add('popup__container-submit-button_disabled');
   submitCardFormButton.setAttribute('disabled', true);
-  //checkValidationOpenPopup(addCardForm);
   openPopup(popupAdd);
 };
 
@@ -168,49 +162,5 @@ addCardForm.addEventListener('submit', handleAddFormSubmit);
 editButton.addEventListener('click', openedProfileEdit);
 addButton.addEventListener('click', openedAddCard);
 
-// !! Используем снова, чтобы не добавлять в класс Card
-// Отклоненный на ревью рефакторинг: Вместо добавления 3 слушателей каждой карточке,
-// повесили 1 слушатель на весь контейнер.
-// Механизм делегирования.
-// Обработчик обрабатывает каждое событие на элементе,
-// а условная конструкция проверяет, на каком из дочерних оно произошло.
-//cardsContainer.addEventListener('click', (evt) => {
-//  if (evt.target.classList.contains('elements__card-like')) {
-//    evt.target.classList.toggle('elements__card-like_activ');
-//  }
-//  if (evt.target.classList.contains('elements__card-delete')) {
-//    const elementItem = evt.target.closest('.elements__card');
-//    elementItem.remove();
-//  }
-//  if (evt.target.classList.contains('elements__card-image')) {
-//    cardImage.src = evt.target.src;
-//    cardImage.alt = evt.target.alt;
-//    cardTitle.textContent = evt.target.alt;
-//    openPopup(popupImage);
-//  }
-//});
 
 export { openPopup, closePopup };
-
-/*function createCard(name, link) {
-  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
-  const imageCard = cardElement.querySelector(".elements__card-image");
-  const imageTitle = cardElement.querySelector(".elements__card-title");
-  imageCard.src = link;
-  imageCard.alt = name;
-  imageTitle.textContent = name;
-  cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__card-like_activ');
-  });
-  cardElement.querySelector('.elements__card-delete').addEventListener('click', function (evt) {
-    const elementItem = evt.target.closest('.elements__card');
-    elementItem.remove();
-  });
-  cardElement.querySelector('.elements__card-image').addEventListener('click', function (evt) {
-    cardImage.src = evt.target.src;
-    cardImage.alt = evt.target.alt;
-    cardTitle.textContent = evt.target.alt;
-    openPopup(popupImage);
-  });
-  return cardElement;
-}*/
