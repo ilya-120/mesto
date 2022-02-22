@@ -189,7 +189,7 @@ cardsContainer.addEventListener('click', (evt) => {
   }
 });
 
-export {openPopup, closePopup};
+//export {openPopup, closePopup};
 
 /*function createCard(name, link) {
   const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
