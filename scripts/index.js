@@ -1,10 +1,9 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { openPopup, closePopup } from './utils.js';
+import { openPopup, closePopup, popupImage } from './utils.js';
 
 const popupEdit = document.querySelector('#popup-edit-card'); // Объявляем переменные
 const popupAdd = document.querySelector('#popup-add-card');
-const popupImage = document.querySelector('#popup-image');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const closePopapEditButton = popupEdit.querySelector('.popup__container-close-button');
@@ -138,5 +137,3 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 addCardForm.addEventListener('submit', handleAddFormSubmit);
 editButton.addEventListener('click', openedProfileEdit);
 addButton.addEventListener('click', openedAddCard);
-
-export { popupImage }

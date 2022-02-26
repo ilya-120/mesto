@@ -1,4 +1,4 @@
-import { popupImage } from './index.js';
+const popupImage = document.querySelector('#popup-image');
 
 function openPopup(popup) {
   popup.classList.add('popup_opened'); // Добавляем не активный класс
@@ -30,4 +30,4 @@ function closeByClickOverlay(e) {
   }
 }
 
-export { openPopup, closePopup, openPopupImage };
+export { openPopup, closePopup, openPopupImage, popupImage };
