@@ -1,11 +1,10 @@
-import { openPopup, closePopup } from './index.js';
+import { openPopupImage } from './utils.js';
 
 class Card {
   constructor(data, templateSelector) {
     this._name = data.name,
-    this._link = data.link,
-    this._templateSelector = templateSelector,
-    this._popup = document.querySelector('#popup-image')
+      this._link = data.link,
+      this._templateSelector = templateSelector
   }
 
   _getTemplate() {
@@ -23,18 +22,8 @@ class Card {
     imageTitle.textContent = this._name;
     imageCard.alt = this._name;
     imageCard.src = this._link;
-
     this._setEventListeners();
-
     return this._element;
-  }
-
-  _callOpenPopup() {
-    openPopup(this._popup);
-  }
-
-  _callClosePopup() {
-    closePopup();
   }
 
   _callCardImageClick(e) {
@@ -43,7 +32,7 @@ class Card {
     cardImage.src = e.target.src;
     cardImage.alt = e.target.alt;
     cardTitle.textContent = e.target.alt;
-    this._callOpenPopup();
+    openPopupImage();
   }
 
   _callLikeButtonClick(e) {
@@ -51,16 +40,14 @@ class Card {
   }
 
   _callRemoveButtonClick(e) {
-    this._placeElement.addEventListener('click', (e) => {
-      this._placeElement.remove()
-    });
+    this._placeElement.remove();
+    this._placeElement = null;
   }
 
   _setEventListeners() {
     const cardImage = this._element.querySelector('.elements__card-image');
     const cardLikeButton = this._element.querySelector('.elements__card-like');
     const cardRemoveButton = this._element.querySelector('.elements__card-delete');
-
     cardImage.addEventListener('click', (e) => {
       this._callCardImageClick(e);
     });

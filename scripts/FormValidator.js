@@ -54,17 +54,14 @@ class FormValidator {
   }
 
   _setEventListeners = () => {
-    // Находим все поля внутри формы,
-    // сделаем из них массив методом Array.from
-    const inputList = this._inputList;
     // Обойдём все элементы полученной коллекции
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       // каждому полю добавим обработчик события input
       inputElement.addEventListener('input', () => {
         // Внутри колбэка вызовем isValid,
         // передав ей форму и проверяемый элемент
         this._isValid(inputElement);
-        this._toggleButtonState(inputList);
+        this._toggleButtonState(this._inputList);
       });
     });
   }

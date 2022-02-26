@@ -1,5 +1,6 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { openPopup, closePopup } from './utils.js';
 
 const popupEdit = document.querySelector('#popup-edit-card'); // Объявляем переменные
 const popupAdd = document.querySelector('#popup-add-card');
@@ -78,31 +79,6 @@ function handleAddFormSubmit(evt) {
   addCardForm.reset();
 }
 
-function openPopup(popup) {
-  popup.classList.add('popup_opened'); // Добавляем не активный класс
-  document.addEventListener('keydown', closeByEsc);
-  document.addEventListener('click', closeByClickOverlay);
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened'); // Убираем активный класс
-  document.removeEventListener('keydown', closeByEsc);
-  document.removeEventListener('click', closeByClickOverlay);
-}
-
-function closeByEsc(evt) {
-  const openedPopup = document.querySelector('.popup_opened');
-  if (evt.key === 'Escape') {
-    closePopup(openedPopup);
-  }
-}
-
-function closeByClickOverlay(e) {
-  const openedPopup = document.querySelector('.popup_opened');
-  if (e.target === openedPopup) { // Если цель клика - фон, то:
-    closePopup(openedPopup); // Убираем активный класс
-  }
-}
 
 //Функция отчичтки текстов ошибок
 const clearErrors = (inputList, errorList) => {
@@ -141,12 +117,13 @@ closePopapImageButton.addEventListener('click', () => {
   closePopup(popupImage);
 });
 
-const formList = Array.from(document.querySelectorAll('.popup__container-form'));
-formList.forEach((formSelector) => {
-  const formValidator = new FormValidator(validationParameters, formSelector);
-  formValidator.enableValidation();
-});
 
+const formProfileValidator = new FormValidator(validationParameters, profileForm);
+const formCardValidator = new FormValidator(validationParameters, addCardForm);
+
+formProfileValidator.enableValidation();
+
+formCardValidator.enableValidation();
 
 initialCards.forEach(createCard);
 
@@ -162,5 +139,4 @@ addCardForm.addEventListener('submit', handleAddFormSubmit);
 editButton.addEventListener('click', openedProfileEdit);
 addButton.addEventListener('click', openedAddCard);
 
-
-export { openPopup, closePopup };
+export { popupImage }
