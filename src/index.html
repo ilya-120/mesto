@@ -5,18 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="keywords" content="html, css">
-  <link rel="stylesheet" href="./pages/index.css">
   <title>MESTO</title>
 </head>
 
 <body>
   <div class="page">
     <header class="header">
-      <img class="header__logo" src="./images/logo.svg" alt="Логотип" />
+      <img class="header__logo" src="<%=require("./images/logo.svg")%>" alt="Логотип" />
     </header>
     <main class="content">
       <section class="profile">
-        <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватар" />
+        <img class="profile__avatar" src="<%=require("./images/avatar.jpg")%>" alt="Аватар" />
         <div class="profile__info">
           <div class="profile__author">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -31,7 +30,7 @@
       </section>
     </main>
     <footer class="footer">
-      <p class="footer__subtitle">&copy; 2020 Mesto Russia</p>
+      <p class="footer__subtitle">&copy; 2022 Mesto Russia</p>
     </footer>
     <div class="popup" id="popup-edit-card">
       <div class="popup__container">
@@ -59,7 +58,7 @@
           <input class="popup__input popup__input_type_link" id="input-link" required type="url" name="link"
             placeholder="Ссылка на картинку">
           <span class="popup__error input-link-error"></span>
-          <input name="submitButton" type="submit" value="Создать" class="popup__container-submit-button">
+          <input type="submit" value="Создать" class="popup__container-submit-button">
         </form>
       </div>
     </div>
@@ -81,7 +80,6 @@
       </div>
     </article>
   </template>
-  <script type="module" src="./scripts/index.js"></script>
 </body>
 
 </html>
