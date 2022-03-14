@@ -14,21 +14,12 @@ export default class Card {
       .cloneNode(true);
   }
 
-  _setEventListeners() {
-    this._element.querySelector(buttonLikeSelector).addEventListener('click', this._callLikeButtonClick);
-    this._element.querySelector(buttonDeleteCardSelector).addEventListener('click', this._callRemoveButtonClick);
-    this._element.querySelector(imageCardSelector).addEventListener('click', () => this._handleCardClick({
-      name: this._name,
-      link: this._link
-    }));
-  }
-
   _callLikeButtonClick(e) {
     e.target.classList.toggle(likeActiveSelector);
   }
 
-  _callRemoveButtonClick(e) {
-    e.target.closest('.elements__card').remove();
+  _callRemoveButtonClick() {
+    this._element.remove();
     this._element = null;
   }
 
@@ -41,6 +32,15 @@ export default class Card {
     imageCard.src = this._link;
     imageTitle.textContent = this._name;
     return this._element;
+  }
+
+  _setEventListeners() {
+    this._element.querySelector(buttonLikeSelector).addEventListener('click', this._callLikeButtonClick);
+    this._element.querySelector(buttonDeleteCardSelector).addEventListener('click', () => { this._callRemoveButtonClick()});
+    this._element.querySelector(imageCardSelector).addEventListener('click', () => this._handleCardClick({
+      name: this._name,
+      link: this._link
+    }));
   }
 }
 
