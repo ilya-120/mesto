@@ -30,7 +30,7 @@ export default class Card {
     return Boolean(this._likes.find(user => user._id === this._userId))
   };
 
-  RemoveButtonClick() {
+  removeButtonClick() {
     this._element.remove();
     this._element = null;
   }

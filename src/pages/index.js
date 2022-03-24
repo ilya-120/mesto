@@ -12,7 +12,6 @@ import {
   editButton,
   nameInput,
   aboutInput,
-  avatarInput,
   addButton,
   editAvatarForm,
   profileForm,
@@ -76,7 +75,7 @@ const handleDeleteElement = (card) => {
   popupConfirm.submitAction(() => {
     api.deleteCard(card.getId())
       .then(() => {
-        card.RemoveButtonClick()
+        card.removeButtonClick()
         popupConfirm.close()
       })
       .catch((err) =>
@@ -180,8 +179,6 @@ editButton.addEventListener('click', () => {
 });
 
 avatarEditButton.addEventListener('click', () => {
-  const userData = userInfo.getUserInfo();
-  avatarInput.value = userData.avatar;
   formValidEditAvatar.resetValidation();
   editAvatarPopup.open();
 });

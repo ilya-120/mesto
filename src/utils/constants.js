@@ -14,7 +14,6 @@ export const profileForm = document.forms.editForm;
 export const addCardForm = document.forms.addForm;
 export const nameInput = profileForm.elements.name;
 export const aboutInput = profileForm.elements.about;
-export const avatarInput = editAvatarForm.elements.avatar;
 export const popupImageSelector = '#popup-image';
 export const popupAddCardSelector = '#popup-add-card';
 export const popupEditProfileSelector = '#popup-edit-card';
