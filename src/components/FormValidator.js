@@ -6,17 +6,6 @@ export default class FormValidator {
     this._inputList = Array.from(this._formSelector.querySelectorAll(this._parameters.inputSelector))
   }
 
-  enableValidation() {
-    this._setEventListeners();
-  }
-
-  resetValidation() {
-    this._toggleButtonState();
-    this._inputList.forEach((inputElement) => {
-      this._hideInputError(inputElement)
-    });
-  }
-
   _showInputError = (inputElement) => {
     inputElement.classList.add(this._parameters.inputErrorClass);
     this._errorElement = this._formSelector.querySelector(`.${inputElement.id}-error`);
@@ -74,6 +63,16 @@ export default class FormValidator {
       });
     });
     this._toggleButtonState();
+  }
+  enableValidation() {
+    this._setEventListeners();
+  }
+
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement)
+    });
   }
 }
 
